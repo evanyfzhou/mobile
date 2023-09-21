@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 const HEADER = () => {
   return (
     <View>
-      <Text>header header</Text>
+      <Text>headers</Text>
     </View>
   );
 };
