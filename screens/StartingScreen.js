@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import NameInput from '../components/NameInput';
 import EmailInput from '../components/EmailInput';
 import PhoneInput from '../components/PhoneInput';
 import Checkbox from '../components/Checkbox';
 import StartingButtons from '../components/StartingButtons';
+import ConfirmScreen from './ConfirmScreen';
+import GameScreen from './GameScreen';
 
 class StartingScreen extends Component {
   constructor() {
@@ -14,9 +16,10 @@ class StartingScreen extends Component {
       email: '',
       phone: '',
       isRobot: false,
-      nameError: false, // Changed to boolean
-      emailError: false, // Changed to boolean
-      phoneError: false, // Changed to boolean
+      nameError: false,
+      emailError: false,
+      phoneError: false,
+      isConfirmVisible: false,
     };
   }
 
@@ -44,33 +47,55 @@ class StartingScreen extends Component {
       email: '',
       phone: '',
       isRobot: false,
-      nameError: false, // Reset to false
-      emailError: false, // Reset to false
-      phoneError: false, // Reset to false
+      nameError: false,
+      emailError: false,
+      phoneError: false,
     });
   };
 
   handleStart = () => {
     const { name, email, phone } = this.state;
 
-    // Validation checks
     let nameError = !name || !isNaN(name);
     let emailError = !email || !email.includes('@');
     let phoneError = !phone || isNaN(phone) || phone.length !== 10;
 
     if (nameError || emailError || phoneError) {
-      // Set error flags to true if any of the validation checks fail
       this.setState({ nameError, emailError, phoneError });
     } else {
-      // Handle what should happen when all inputs are valid and Start is clicked
-      alert('Form submitted successfully!');
+      this.setState({ isConfirmVisible: true });
     }
   };
 
+  handleGoBack = () => {
+    this.setState({ isConfirmVisible: false });
+  };
+
+  handleContinue = () => {
+    this.setState({ isConfirmVisible: false, isGameVisible: true });
+  };
+
   render() {
-    const { name, email, phone, isRobot, nameError, emailError, phoneError } = this.state;
+    const { name, email, phone, isRobot, nameError, emailError, phoneError, isConfirmVisible, isGameVisible } = this.state;
+
+    if (isConfirmVisible) {
+      return (
+        <ConfirmScreen
+          name={name}
+          email={email}
+          phone={phone}
+          onGoBack={this.handleGoBack}
+          onContinue={this.handleContinue}
+        />
+      );
+    }
+
+    if (isGameVisible) {
+      return <GameScreen />;
+    }
+
     return (
-      <View style={{ backgroundColor: 'blue', flex: 1, alignItems: 'center' }}>
+      <View style={{ backgroundColor: 'blue', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={{ color: 'white', padding: 20 }}>Welcome</Text>
         <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
           <NameInput value={name} onChange={this.handleNameChange} isError={nameError} />
@@ -81,7 +106,6 @@ class StartingScreen extends Component {
         </View>
       </View>
     );
-       
   }
 }
 
