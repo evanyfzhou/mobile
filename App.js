@@ -1,41 +1,30 @@
-import React, { useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button } from 'react-native'; // Import Button component
-import Header from './components/Header';
-import Input from './components/Input';
+import React, { Component } from 'react';
+import StartingScreen from './screens/StartingScreen'; // Adjust the path as needed
+import { View, Text } from 'react-native';
+import Modal from 'react-native-modal';
 
-export default function App() {
-  const appName = "MyAwesomeApp";
-  const [modalVisible, setModalVisible] = useState(false);
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalVisible: true,
+    };
+  }
 
-  // Function to toggle modal visibility
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
+  toggleModal = () => {
+    this.setState({ isModalVisible: !this.state.isModalVisible });
   };
 
-  // Function to close the modal
-  const onModalClose = () => {
-    setModalVisible(false); // Set modalVisible to false to hide the modal
-  };
-
-  return (
-    <View style={styles.container}>
-      <Input modalVisible={modalVisible} onModalClose={onModalClose} />
-      <Text style={styles.txt}>You opened up {appName}</Text>
-      <Button title="Toggle Modal" onPress={toggleModal} />
-      <StatusBar style="auto" />
-    </View>
-  );
+  render() {
+    return (
+      <View style={{ backgroundColor: 'blue', flex: 1, alignItems: 'center' }}>
+        <Text style={{ color: 'white', padding: 20 }}>Welcome</Text>
+        <Modal isVisible={this.state.isModalVisible}>
+          <StartingScreen />
+        </Modal>
+      </View>
+    );
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  txt: {
-    marginBottom: 10,
-  }
-});
+export default App;
