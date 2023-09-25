@@ -69,16 +69,19 @@ class StartingScreen extends Component {
 
   render() {
     const { name, email, phone, isRobot, nameError, emailError, phoneError } = this.state;
-
     return (
-            <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
-              <NameInput value={name} onChange={this.handleNameChange} isError={nameError} />
-              <EmailInput value={email} onChange={this.handleEmailChange} isError={emailError} />
-              <PhoneInput value={phone} onChange={this.handlePhoneChange} isError={phoneError} />
-              <Checkbox isChecked={isRobot} onChange={this.handleCheckboxChange} />
-              <StartingButtons onReset={this.handleReset} onStart={this.handleStart} isStartDisabled={!isRobot} />
-            </View>
+      <View style={{ backgroundColor: 'blue', flex: 1, alignItems: 'center' }}>
+        <Text style={{ color: 'white', padding: 20 }}>Welcome</Text>
+        <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
+          <NameInput value={name} onChange={this.handleNameChange} isError={nameError} />
+          <EmailInput value={email} onChange={this.handleEmailChange} isError={emailError} />
+          <PhoneInput value={phone} onChange={this.handlePhoneChange} isError={phoneError} />
+          <Checkbox isChecked={isRobot} onChange={this.handleCheckboxChange} />
+          <StartingButtons onReset={this.handleReset} onStart={this.handleStart} isStartDisabled={!isRobot} />
+        </View>
+      </View>
     );
+       
   }
 }
 
