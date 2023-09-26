@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Text } from 'react-native';
 import NameInput from '../components/NameInput';
 import EmailInput from '../components/EmailInput';
 import PhoneInput from '../components/PhoneInput';
 import Checkbox from '../components/Checkbox';
 import StartingButtons from '../components/StartingButtons';
-import ConfirmScreen from './ConfirmScreen';
-import GameScreen from './GameScreen';
+import AppStyles from '../components/AppStyles';
+import { LinearGradient } from 'expo-linear-gradient';
 
 class StartingScreen extends Component {
   constructor() {
@@ -19,7 +19,6 @@ class StartingScreen extends Component {
       nameError: false,
       emailError: false,
       phoneError: false,
-      isConfirmVisible: false,
     };
   }
 
@@ -63,48 +62,24 @@ class StartingScreen extends Component {
     if (nameError || emailError || phoneError) {
       this.setState({ nameError, emailError, phoneError });
     } else {
-      this.setState({ isConfirmVisible: true });
+      this.props.onContinue(name, email, phone);
     }
-  };
-
-  handleGoBack = () => {
-    this.setState({ isConfirmVisible: false });
-  };
-
-  handleContinue = () => {
-    this.setState({ isConfirmVisible: false, isGameVisible: true });
   };
 
   render() {
-    const { name, email, phone, isRobot, nameError, emailError, phoneError, isConfirmVisible, isGameVisible } = this.state;
-
-    if (isConfirmVisible) {
-      return (
-        <ConfirmScreen
-          name={name}
-          email={email}
-          phone={phone}
-          onGoBack={this.handleGoBack}
-          onContinue={this.handleContinue}
-        />
-      );
-    }
-
-    if (isGameVisible) {
-      return <GameScreen />;
-    }
+    const { name, email, phone, isRobot, nameError, emailError, phoneError } = this.state;
 
     return (
-      <View style={{ backgroundColor: 'blue', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ color: 'white', padding: 20 }}>Welcome</Text>
-        <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
+      <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={AppStyles.startingScreenContainer}>
+        <Text style={AppStyles.startingScreenText}>Welcome</Text>
+        <View style={AppStyles.startingScreenInnerContainer}>
           <NameInput value={name} onChange={this.handleNameChange} isError={nameError} />
           <EmailInput value={email} onChange={this.handleEmailChange} isError={emailError} />
           <PhoneInput value={phone} onChange={this.handlePhoneChange} isError={phoneError} />
           <Checkbox isChecked={isRobot} onChange={this.handleCheckboxChange} />
           <StartingButtons onReset={this.handleReset} onStart={this.handleStart} isStartDisabled={!isRobot} />
         </View>
-      </View>
+      </LinearGradient>
     );
   }
 }

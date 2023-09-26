@@ -11,14 +11,28 @@ class App extends Component {
       isStartingScreenVisible: true,
       isConfirmScreenVisible: false,
       isGameScreenVisible: false,
+      name: '',
+      email: '',
+      phone: '',
     };
   }
 
-  navigateToConfirmScreen = () => {
+  navigateToStartingScreen = () => {
+    this.setState({
+      isStartingScreenVisible: true,
+      isConfirmScreenVisible: false,
+      isGameScreenVisible: false,
+    });
+  };
+
+  navigateToConfirmScreen = (name, email, phone) => {
     this.setState({
       isStartingScreenVisible: false,
       isConfirmScreenVisible: true,
       isGameScreenVisible: false,
+      name,
+      email,
+      phone,
     });
   };
 
@@ -31,21 +45,29 @@ class App extends Component {
   };
 
   render() {
-    const { isStartingScreenVisible, isConfirmScreenVisible, isGameScreenVisible } = this.state;
+    const { isStartingScreenVisible, isConfirmScreenVisible, isGameScreenVisible, name, email, phone } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
         {isStartingScreenVisible && (
           <StartingScreen
-            onContinue={this.navigateToConfirmScreen}
+            onContinue={(name, email, phone) => this.navigateToConfirmScreen(name, email, phone)}
           />
         )}
         {isConfirmScreenVisible && (
           <ConfirmScreen
+            name={name}
+            email={email}
+            phone={phone}
+            onGoBack={this.navigateToStartingScreen}
             onContinue={this.navigateToGameScreen}
           />
         )}
-        {isGameScreenVisible && <GameScreen />}
+        {isGameScreenVisible && (
+          <GameScreen
+            onLogout={this.navigateToStartingScreen}
+          />
+        )}
       </View>
     );
   }
