@@ -9,6 +9,7 @@ import AppStyles from '../components/AppStyles';
 import { LinearGradient } from 'expo-linear-gradient';
 
 class StartingScreen extends Component {
+  // Initialize state variables
   constructor() {
     super();
     this.state = {
@@ -22,24 +23,29 @@ class StartingScreen extends Component {
     };
   }
 
+  // Update state when name changes
   handleNameChange = (text) => {
     this.setState({ name: text });
   };
 
+  // Update state when email changes
   handleEmailChange = (text) => {
     this.setState({ email: text });
   };
 
+  // Update state when phone number changes
   handlePhoneChange = (text) => {
     this.setState({ phone: text });
   };
 
+  // Toggle checkbox state
   handleCheckboxChange = () => {
     this.setState((prevState) => ({
       isRobot: !prevState.isRobot,
     }));
   };
 
+  // Reset form fields
   handleReset = () => {
     this.setState({
       name: '',
@@ -52,6 +58,7 @@ class StartingScreen extends Component {
     });
   };
 
+  // Validate input and proceed or show errors
   handleStart = () => {
     const { name, email, phone } = this.state;
 

@@ -5,6 +5,7 @@ import ConfirmScreen from './screens/ConfirmScreen';
 import GameScreen from './screens/GameScreen';
 
 class App extends Component {
+  // Initialize component state
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +18,7 @@ class App extends Component {
     };
   }
 
+  // Function to navigate to the StartingScreen
   navigateToStartingScreen = () => {
     this.setState({
       isStartingScreenVisible: true,
@@ -25,6 +27,7 @@ class App extends Component {
     });
   };
 
+  // Function to navigate to the ConfirmScreen with name, email, and phone
   navigateToConfirmScreen = (name, email, phone) => {
     this.setState({
       isStartingScreenVisible: false,
@@ -36,6 +39,7 @@ class App extends Component {
     });
   };
 
+  // Function to navigate to the GameScreen
   navigateToGameScreen = () => {
     this.setState({
       isStartingScreenVisible: false,
@@ -44,16 +48,19 @@ class App extends Component {
     });
   };
 
+  // Render method to display components based on state
   render() {
     const { isStartingScreenVisible, isConfirmScreenVisible, isGameScreenVisible, name, email, phone } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
+        {/* Show StartingScreen if its state is true */}
         {isStartingScreenVisible && (
           <StartingScreen
             onContinue={(name, email, phone) => this.navigateToConfirmScreen(name, email, phone)}
           />
         )}
+        {/* Show ConfirmScreen if its state is true */}
         {isConfirmScreenVisible && (
           <ConfirmScreen
             name={name}
@@ -63,6 +70,7 @@ class App extends Component {
             onContinue={this.navigateToGameScreen}
           />
         )}
+        {/* Show GameScreen if its state is true */}
         {isGameScreenVisible && (
           <GameScreen
             onLogout={this.navigateToStartingScreen}

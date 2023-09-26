@@ -5,6 +5,7 @@ import image from '../assets/smiling-face.png'
 import { LinearGradient } from 'expo-linear-gradient';
 
 class GameScreen extends Component {
+  // Initialize state and set a random number
   constructor(props) {
     super(props);
     this.state = {
@@ -15,18 +16,22 @@ class GameScreen extends Component {
     };
   }
 
+  // Handle changes to the user input
   handleUserInput = (text) => {
     this.setState({ userInput: text });
   };
 
+  // Reset user input
   resetInput = () => {
     this.setState({ userInput: '' });
   };
 
+  // Confirm the user's guess
   confirmGuess = () => {
     this.setState(prevState => ({ numberOfGuesses: prevState.numberOfGuesses + 1, showResultCard: true }));
   };
 
+  // Start a new game
   startNewGame = () => {
     this.setState({
       userInput: '',
@@ -36,6 +41,7 @@ class GameScreen extends Component {
     });
   };
 
+  // Hide the result card to let the user try again
   tryAgain = () => {
     this.setState({ showResultCard: false });
   };
@@ -46,12 +52,15 @@ class GameScreen extends Component {
     const hasGuessedCorrectly = parseInt(userInput, 10) === randomNumber;
 
     return (
+      // Background gradient
       <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={AppStyles.gameScreenContainer}>
+        {/* Logout button */}
         <View style={AppStyles.gameScreenLogoutButtonContainer}>
           <TouchableOpacity onPress={onLogout}>
             <Text>Logout</Text>
           </TouchableOpacity>
         </View>
+        {/* Show result card or input card based on state */}
         {showResultCard ? (
           hasGuessedCorrectly ? (
             <View style={AppStyles.gameScreenCard}>
@@ -76,6 +85,7 @@ class GameScreen extends Component {
             </View>
           )
         ) : (
+          // Content for making a guess
           <View style={AppStyles.gameScreenCard}>
             <Text style={AppStyles.gameScreenText}>Guess a number between 10 & 20</Text>
             <TextInput value={userInput} onChangeText={this.handleUserInput} style={AppStyles.gameScreenTextInput} />
